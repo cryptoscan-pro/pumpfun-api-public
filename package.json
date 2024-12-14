@@ -1,0 +1,55 @@
+{
+  "name": "pumpfun-api-cryptoscan",
+  "version": "1.0.0",
+  "description": "A TypeScript API wrapper for interacting with PumpFun on Solana blockchain.",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "dev": "ts-node-dev src/index.ts",
+    "test": "jest",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cryptoscan-pro/pumpfun-api.git"
+  },
+  "keywords": [
+    "solana",
+    "pumpfun",
+    "api",
+    "typescript",
+    "cryptoscan",
+    "dex",
+    "websocket"
+  ],
+  "author": "Cryptoscan Pro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cryptoscan-pro/pumpfun-api/issues"
+  },
+  "homepage": "https://github.com/cryptoscan-pro/pumpfun-api#readme",
+  "dependencies": {
+    "@solana/web3.js": "^1.79.0",
+    "@cryptoscan/proxy-handler": "^2.0.0",
+    "hono": "^3.1.0",
+    "p-retry": "^6.0.0",
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "prettier": "^3.0.0",
+    "ts-jest": "^29.0.0",
+    "ts-node": "^10.0.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
