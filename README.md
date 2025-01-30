@@ -13,6 +13,43 @@ What you get:
 - Free updates for app, you can request for free updates via access to issues
 - Full access to Project Time tracking by developers
 
+## Transaction Example
+
+Here's a complete example of creating and sending a transaction using the API:
+
+```typescript
+import { Connection, VersionedTransaction } from "@solana/web3.js";
+
+async function createAndSendTransaction() {
+  // Get the transaction from API
+  const txn = await fetch(
+    "http://localhost:3000/create?name=Cryptoscan&symbol=CS&uri=&payerAddress=6iFSxhMwqctFx41TE2yC7eFPT68PHRgt11FfFqYT2uhJ"
+  )
+    .then((res) => res.json())
+    .then((data) => data.transaction);
+
+  // Setup connection
+  const connection = new Connection(rpcUrl, {
+    wsEndpoint: wsRpcUrl,
+  });
+
+  // Deserialize the transaction
+  const transaction = VersionedTransaction.deserialize(
+    Buffer.from(txn, "base64")
+  );
+
+  if (transaction instanceof Error) {
+    return transaction;
+  }
+
+  // Sign with your wallet
+  transaction.sign([wallet]);
+
+  // Send the transaction
+  return sendTransaction(transaction, { connection });
+}
+```
+
 ## Features
 
 - Create buy/sell transactions for PumpFun tokens
