@@ -23,7 +23,13 @@ import { Connection, VersionedTransaction } from "@solana/web3.js";
 async function createAndSendTransaction() {
   // Get the transaction from API
   const txn = await fetch(
-    "http://localhost:3000/create?name=Cryptoscan&symbol=CS&uri=&payerAddress=6iFSxhMwqctFx41TE2yC7eFPT68PHRgt11FfFqYT2uhJ"
+    "http://localhost:3000/createTransaction?" + new URLSearchParams({
+      walletAddress: "6iFSxhMwqctFx41TE2yC7eFPT68PHRgt11FfFqYT2uhJ",
+      from: "sol",
+      to: "YOUR_COIN_ADDRESS",  // address of the coin you want to buy
+      amount: "1",              // amount in SOL
+      slippage: "1"            // slippage in percentage
+    })
   )
     .then((res) => res.json())
     .then((data) => data.transaction);
