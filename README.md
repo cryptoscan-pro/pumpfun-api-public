@@ -84,11 +84,100 @@ api.listenCoinBump("COIN_ADDRESS", (coin) => {
 
 ## REST API Endpoints
 
-The package includes a Hono-based HTTP server with the following endpoints:
+### Get Coin Information
+```http
+GET /coin?address={address}
+```
 
-- `GET /coin?address=<address>` - Get coin information
-- `GET /rate?from=<from>&to=<to>&amount=<amount>` - Get exchange rate
-- `GET /createTransaction` - Create a new transaction
+**Parameters:**
+- `address` (required): Solana address of the coin (string)
+
+**Response:**
+```typescript
+{
+  mint: string;          // Coin address
+  name: string;          // Coin name
+  symbol: string;        // Coin symbol
+  bonding_curve: string; // Bonding curve address
+  // ... other coin properties
+}
+```
+
+### Get Exchange Rate
+```http
+GET /rate
+```
+
+**Parameters:**
+- `to` (required): Destination token address or 'sol' (string)
+- `from` (optional): Source token address or 'sol' (string, default: 'sol')
+- `amount` (optional): Amount to exchange (number, default: 1)
+- `network` (optional): Network name (string)
+- `slippage` (optional): Slippage percentage (number)
+
+**Response:**
+```typescript
+{
+  network: string;      // Network name (e.g., "solana")
+  service: string;      // Service name (e.g., "pumpfun")
+  from: string;         // Source token symbol
+  to: string;          // Destination token symbol
+  symbol: string;      // Trading pair symbol
+  fromAddress: string; // Source token address
+  toAddress: string;   // Destination token address
+  price: number;       // Exchange rate
+  priceUSD: number;    // USD price
+  liquidityUSD: number;// Liquidity in USD
+  amount: number;      // Output amount
+  amountUSD: number;   // Output amount in USD
+  fee: number;         // Transaction fee
+  feeUSD: number;      // Transaction fee in USD
+  impact: number;      // Price impact
+  routes: any[];       // Available routes
+}
+```
+
+### Create Transaction
+```http
+GET /createTransaction
+```
+
+**Parameters:**
+- `walletAddress` (required): User's wallet address (string)
+- `from` (required): Source token address or 'sol' (string)
+- `to` (required): Destination token address or 'sol' (string)
+- `amount` (required): Amount to exchange (number)
+- `slippage` (optional): Slippage percentage (number)
+- `payerAddress` (optional): Payer's address (string, defaults to walletAddress)
+- `partnerAddress` (optional): Partner's address for fee collection (string)
+- `partnerFeePercentage` (optional): Partner fee percentage (number)
+- `fee` (optional): Additional fee (number)
+
+**Response:**
+```typescript
+{
+  transaction: string; // Base64 encoded transaction
+}
+```
+
+### Create New Coin
+```http
+GET /create
+```
+
+**Parameters:**
+- `name` (required): Coin name (string)
+- `symbol` (required): Coin symbol (string)
+- `uri` (required): Metadata URI (string)
+- `payerAddress` (required): Payer's wallet address (string)
+
+**Response:**
+```typescript
+{
+  transaction: string; // Base64 encoded transaction
+  mint: string;       // New coin's mint address
+}
+```
 
 ## Configuration
 
