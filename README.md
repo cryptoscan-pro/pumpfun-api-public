@@ -56,6 +56,55 @@ async function createAndSendTransaction() {
 }
 ```
 
+## Docker Deployment
+
+### Prerequisites
+- Docker installed on your system
+- NPM token for private package access
+
+### Build and Run
+
+1. Create `.env` file with your NPM token:
+```bash
+NPM_TOKEN=your_npm_token_here
+```
+
+2. Build the Docker image:
+```bash
+docker build --build-arg NPM_TOKEN=$NPM_TOKEN -t pumpfun-api .
+```
+
+3. Run the container:
+```bash
+docker run -p 3000:3000 pumpfun-api
+```
+
+The API will be available at `http://localhost:3000`
+
+### Docker Compose (Optional)
+
+Create `docker-compose.yml`:
+```yaml
+version: '3'
+services:
+  pumpfun-api:
+    build:
+      context: .
+      args:
+        - NPM_TOKEN=${NPM_TOKEN}
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+```
+
+Then run:
+```bash
+docker-compose up -d
+```
+
+### Environment Variables
+- `NPM_TOKEN` - Required for accessing private npm packages
+
 ## Features
 
 - Create buy/sell transactions for PumpFun tokens
