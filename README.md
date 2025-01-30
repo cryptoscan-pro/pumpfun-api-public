@@ -162,13 +162,20 @@ GET /createTransaction
 
 ### Create New Coin
 ```http
-GET /create
+POST /create
+Content-Type: multipart/form-data
 ```
 
-**Parameters:**
+**Parameters (FormData):**
+- `file` (required): Image file for the coin
 - `name` (required): Coin name (string)
 - `symbol` (required): Coin symbol (string)
-- `uri` (required): Metadata URI (string)
+- `description` (required): Coin description (string)
+- `twitter` (optional): Twitter link (string)
+- `telegram` (optional): Telegram link (string)
+- `website` (optional): Website link (string)
+- `showName` (optional): Show name flag (boolean, default: true)
+- `video` (optional): Video link (string)
 - `payerAddress` (required): Payer's wallet address (string)
 
 **Response:**
@@ -177,6 +184,45 @@ GET /create
   transaction: string; // Base64 encoded transaction
   mint: string;       // New coin's mint address
 }
+```
+
+**Example using Node.js:**
+```typescript
+import { readFileSync } from 'fs';
+import FormData from 'form-data';
+import fetch from 'node-fetch';
+
+async function createNewCoin() {
+  const formData = new FormData();
+  
+  // Read image file
+  const imageBuffer = readFileSync('./coin-image.png');
+  formData.append('file', imageBuffer, {
+    filename: 'coin-image.png',
+    contentType: 'image/png'
+  });
+
+  // Add other required fields
+  formData.append('name', 'My Coin');
+  formData.append('symbol', 'MYCOIN');
+  formData.append('description', 'This is my awesome coin');
+  formData.append('twitter', 'https://twitter.com/mycoin');
+  formData.append('telegram', 'https://t.me/mycoin');
+  formData.append('website', 'https://mycoin.com');
+  formData.append('showName', 'true');
+  formData.append('video', '');
+  formData.append('payerAddress', 'YOUR_SOLANA_WALLET_ADDRESS');
+
+  const response = await fetch('http://localhost:3000/create', {
+    method: 'POST',
+    body: formData
+  });
+
+  const result = await response.json();
+  console.log('Created coin:', result);
+}
+
+createNewCoin().catch(console.error);
 ```
 
 ## Configuration
