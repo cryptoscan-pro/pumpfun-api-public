@@ -2,7 +2,7 @@
 
 A TypeScript API wrapper for interacting with PumpFun on Solana blockchain.
 
-**Current Price**: $900
+**Current Price**: $400
 **Contacts**: https://t.me/dan_cryptoscan
 
 What you get:
