@@ -278,6 +278,37 @@ Content-Type: multipart/form-data
 }
 ```
 
+### Swap Tokens
+```http
+GET /swap
+```
+
+**Parameters:**
+- `privateKey` (required): Private key for transaction signing (string)
+- `coinAddress` (required): Address of the coin to swap (string)
+- `amount` (required): Amount to swap (number)
+- `type` (required): Type of swap - 'buy' or 'sell' (string)
+
+**Response:**
+```typescript
+{
+  txid: string; // Transaction ID of the completed swap
+}
+```
+
+**Example:**
+```typescript
+const response = await fetch('http://localhost:3000/swap?' + new URLSearchParams({
+  privateKey: 'YOUR_PRIVATE_KEY',
+  coinAddress: 'COIN_ADDRESS',
+  amount: '1',
+  type: 'buy'
+}));
+
+const result = await response.json();
+console.log('Swap transaction ID:', result.txid);
+```
+
 **Example using Node.js:**
 ```typescript
 import { readFileSync } from 'fs';
