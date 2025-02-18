@@ -252,6 +252,39 @@ GET /createTransaction
 }
 ```
 
+### Get Wallet PNL
+```http
+GET /pnl
+```
+
+**Parameters:**
+- `coinAddress` (required): Address of the coin to check PNL for (string)
+- `walletAddress` (required): Wallet address to get PNL for (string)
+
+**Response:**
+```typescript
+{
+  totalBought: number;        // Total amount of tokens bought
+  totalSold: number;         // Total amount of tokens sold
+  averageBuyPrice: number;   // Average price of buys
+  averageSellPrice: number;  // Average price of sells
+  realizedPNL: number;       // Realized profit/loss
+  unrealizedPNL: number;     // Unrealized profit/loss
+  remainingTokens: number;   // Current token balance
+  transactions: {            // Transaction history
+    type: 'buy' | 'sell';
+    amount: number;
+    price: number;
+    timestamp: number;
+  }[];
+}
+```
+
+**Notes:**
+- PNL data is only available for coins that have had recent swap activity (within last 10 minutes)
+- A swap transaction automatically starts PNL tracking for that coin
+- Returns 404 if no active listener exists for the coin or no PNL data is available
+
 ### Create New Coin
 ```http
 POST /create
