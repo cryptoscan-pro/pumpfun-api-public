@@ -252,6 +252,33 @@ GET /createTransaction
 }
 ```
 
+### Start Coin Listener
+```http
+POST /listen
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+    "coinAddress": "string"  // Required: Address of the coin to listen to
+}
+```
+
+**Response:**
+```json
+{
+    "success": true,
+    "message": "Listener started successfully",
+    "expiresIn": "10 minutes"
+}
+```
+
+**Notes:**
+- Starts a new listener for the specified coin that will run for 10 minutes
+- If a listener already exists for the coin, its timeout will be reset to 10 minutes
+- Required for PNL tracking if no recent swap activity exists
+
 ### Get Wallet PNL
 ```http
 GET /pnl
